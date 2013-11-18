@@ -1,6 +1,8 @@
 XClick
 =============
 
+Demo file here http://louisameline.github.io/XClick
+
 Predict and prevent x-clicks (jQuery plugin).
 -------------------------
 
