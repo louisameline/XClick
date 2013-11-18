@@ -22,7 +22,7 @@
 	// we have to know if the browser generates x-clicks. Not sure if there is another way than browser detection (script-triggered mouse events do not trigger an x-click), suggestions are welcome.
 	var xclickSupport = false;
 	// look for MSIE or rv:11 (IE11)
-	if(navigator.userAgent.indexOf('MSIE') !== -1 || navigator.userAgent.indexOf('rv:11') !== -1) XClickSupport = true;
+	if(navigator.userAgent.indexOf('MSIE') !== -1 || navigator.userAgent.indexOf('rv:11') !== -1) xclickSupport = true;
 	
 	// a function to set a function as a first handler, in order to stop the x-click event before any other handler can fire
 	// warning: this binds on the internals of jQuery as there is no proper method to do this. Be careful to test everytime you upgrade to a new version of jQuery.
