@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+		<script src="xclick.js" type="text/javascript"></script>
+		
+		<style>
+			
+			body {
+				text-align: center;
+			}
+			
+			div {
+				border: 1px solid black;
+				display: inline-block;
+				margin: 40px;
+				min-height: 100px;
+				min-width: 100px;
+				padding: 50px;
+				vertical-align: top;
+			}
+			
+			ol {
+				display: inline-block;
+				text-align: left;
+			}
+			
+			#blue {
+				background: blue;
+			}
+			
+			#red {
+				background: red;
+			}
+			
+			#yellow {
+				background: yellow;
+			}
+			
+			#console {
+				height: 280px;
+				overflow: auto;
+				width: 200px;
+			}
+			
+		</style>
+		
+		<script>
+			
+			$(function(){
+				
+				$('div')
+					.click(function(e){
+					
+						$('#console').append($(this).attr('id') + ' was clicked <br />');
+						e.stopPropagation();
+						
+					})
+					.mouseup(function(event){
+						
+						// imagine that you have to stop the mouseup event from propagating for some reason :
+						event.stopPropagation();
+						// now we have to trigger a mouseupSilent event so the XClick plugin can keep on preventing x-clicks :
+						$(this).trigger('mouseupSilent');
+						
+						// this line is just to make the demo work better. We unselect any text that the mouse gesture may have selected.
+						document.getSelection().removeAllRanges();
+					});
+				
+				
+				$('#activator').click(function(e){
+					$.XClick();
+				})
+			});
+			
+		</script>
+	</head>
+	<body>
+		
+		<h1>Demo : browse this page with Internet Explorer and follow the following steps.</h1>
+		<p>
+			<ol>
+				<li>Click in the colored areas and see what happens.</li>
+				<li>Now press your mouse button on the blue area, move the cursor to the red area, and release the mouse button. Surprise, see who got a click event !</li>
+				<li>Click this button : <input id="activator" type="button" value="Activate XClick" /> and now do the second step again. No more unexpected click event !</li>
+			</ol>
+		</p>
+		
+		<p>That's about it. For people who need to keep mousedown and/or mouseup events from bubbling, see the source of this page. This example actually stops the propagation of mouseup events and replaces them with mouseupSilent events.</p>
+		
+		<div id="yellow">
+			<div id="blue"></div>
+			<div id="red"></div>
+		</div>
+		<div id="console"></div>
+	</body>
+<html>
