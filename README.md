@@ -10,7 +10,7 @@ What I call an "x-click" is actually a regular click event which is triggered in
 
 An x-click event is triggered on an element when this element is the closest common parent of two children elements, one of which having triggered a mousedown event, the other having triggered a mouseup event. So "x-click" stands for "a click spread across elements". See the demo file.
 
-At some point in your code, you may feel x-clicks are not really clicks. The XClick jQuery plugin helps you catch these tricky x-click events so you can take action against them. There is currently no native way to detect or prevent x-clicks. Side note : only real mouse events trigger x-clicks, not script-triggered events.
+At some point in your code, you may feel x-clicks are not really clicks. The XClick jQuery plugin helps you catch these tricky x-click events so you can take action against them. There is currently no native way to detect or prevent x-clicks. Side note : only real mouse events trigger x-clicks, not events triggered by a script.
 
 Explanations and how-to
 -------------------------
@@ -55,6 +55,6 @@ Besides, if I wanted to listen for mousedown-and-up events accross two elements,
 
 Furthermore, one might not even consider them as real functional clicks, it's a question of definition. In my use case, I came accross this issue when using select2 which tries to emulate select fields, which do not trigger click events in these circumstances. Well, select2 just cannot keep this annoying click event from firing (not without a plugin like XClick), since it is fired outside of the HTML it generates.
 
-Speaking of which, it is annoying that using preventDefault on the mousedown and/or mouseup events won't help you prevent x-clicks. Although regular clicks on a unique element rightfully also work this way, it would make some sense to work differently with x-clicks. Finally, x-click events have no special properties that differentiate them from regular click events, that would be a nice thing to do.
+Speaking of which, it is annoying that using preventDefault on the mousedown and/or mouseup events won't help you prevent x-clicks. Although regular clicks on a unique element rightfully also work this way, it would make some sense to work differently with x-clicks. Finally, x-click events have no special properties that differentiate them from regular click events, that would be a nice thing to add.
 
 As far as I'm concerned, since x-clicks are so confusing, hard to use, have almost no real purpose but are real troublemakers, I'd like them gone or at least have them trigger a different type of event. What about disabling them in IE until the W3 makes a new stand on this ? Feel free to share your thoughts.
