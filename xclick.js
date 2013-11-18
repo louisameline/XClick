@@ -1,5 +1,5 @@
 /*
-	A jQuery plugin to prevent "x-clicks" events.
+	A jQuery plugin to predict and prevent "x-clicks" events.
 	Version 1.0 - Released on 2013-11-18
 	More info and discussion at : https://github.com/louisameline/XClick
 	Released under MIT license
@@ -19,8 +19,8 @@
 		},
 		lastElements = {};
 	
-	// we have to know if the browser generates x-clicks. Not sure if there is another way than browser detection, suggestions are welcome.
-	var XClickSupport = false;
+	// we have to know if the browser generates x-clicks. Not sure if there is another way than browser detection (script-triggered mouse events do not trigger an x-click), suggestions are welcome.
+	var xclickSupport = false;
 	// look for MSIE or rv:11 (IE11)
 	if(navigator.userAgent.indexOf('MSIE') !== -1 || navigator.userAgent.indexOf('rv:11') !== -1) XClickSupport = true;
 	
@@ -43,7 +43,7 @@
 		
 		options = $.extend({}, defaultOptions, options || {});
 		
-		if(XClickSupport || options.enableForAllBrowsers){
+		if(xclickSupport || options.enableForAllBrowsers){
 			
 			// enforcing the prevention system
 			if(options.enable === true){
@@ -96,7 +96,7 @@
 									});
 									
 									// stop the event unless the callback function returned true
-									if(letGo === true) event.stopImmediatePropagation();
+									if(letGo !== true) event.stopImmediatePropagation();
 								}
 							});
 							
