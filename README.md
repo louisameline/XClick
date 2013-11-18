@@ -19,7 +19,7 @@ Requires jQuery >=1.8
 
 Just make this call : `$.XClick()`
 
-The plugin will start listening to mouse events (mouse down and up) to predict upcoming x-clicks and then catch them. By default, x-clicks are immediately stopped from propagating.
+The plugin will start listening to mouse events (mouse down and up) to predict upcoming x-clicks and then sets a handler to catch them when they fire. By default, x-clicks are immediately stopped from propagating.
 
 ***Warning*** : the plugin needs all mousedown and mouseup events to bubble up to the body tag. If for some reason you need to stop these events, then launch custom "mousedownSilent" and "mouseupSilent" events instead to keep the plugin working. See the demo file.
 
