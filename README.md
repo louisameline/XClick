@@ -12,7 +12,7 @@ What I call an "x-click" is actually a regular click event which is triggered in
 
 An x-click event is triggered on an element when this element is the closest common parent of two children elements, one of which having triggered a mousedown event, the other having triggered a mouseup event. So "x-click" stands for "a click spread across elements". See the demo file.
 
-At some point in your code, you may feel x-clicks are not really clicks. The XClick jQuery plugin helps you catch these tricky x-click events so you can take action against them. There is currently no native way to detect or prevent x-clicks. Side note : only real mouse events trigger x-clicks, not events triggered by a script.
+At some point in your code, you may feel x-clicks are not really clicks. The XClick jQuery plugin catches these tricky x-click events for you so you can take action against them. There is currently no native way to detect or prevent x-clicks. Side note : only real mouse events trigger x-clicks, not events triggered by a script.
 
 Explanations and how-to
 -------------------------
