@@ -1,7 +1,7 @@
-preventXClick
+XClick
 =============
 
-Prevent x-clicks (jQuery plugin).
+Predict and prevent x-clicks (jQuery plugin).
 -------------------------
 
 As of 2013/11/17, x-clicks happen in Internet Explorer *only*, at least from version 8 and above it seems.
@@ -10,24 +10,33 @@ What I call an "x-click" is actually a regular click event which is triggered in
 
 An x-click event is triggered on an element when this element is the closest common parent of two children elements, one of which having triggered a mousedown event, the other having triggered a mouseup event. So "x-click" stands for "a click spread across elements". See the demo file.
 
-At some point in your code, you may feel x-clicks are not really clicks. The preventXClick jQuery plugin helps you detect click events which are actually x-click events, so you can take action against them. There is currently no native way to detect x-clicks.
-
+At some point in your code, you may feel x-clicks are not really clicks. The XClick jQuery plugin helps you detect click events which are actually x-click events, so you can take action against them. There is currently no native way to detect or prevent x-clicks.
 
 Explanations and how-to
 -------------------------
 
 Requires jQuery >=1.8
 
-Just make this call : `$.preventXClick()`
+Just make this call : `$.XClick()`
 
-The plugin will start tracking bubbling mouse events (mouse down and up) to differentiate clicks and x-clicks. X-clicks are immediately stopped from propagating.
+The plugin will start tracking bubbling mouse events (mouse down and up) to predict upcoming x-clicks. By default, x-clicks are immediately stopped from propagating.
 
-The plugin needs all mousedown and mouseup events to bubble up to the body tag. If for some reason you need to stop these events, then launch custom "mousedownSilent" and "mouseupSilent" events instead to keep the plugin working.
+***Warning*** : the plugin needs all mousedown and mouseup events to bubble up to the body tag. If for some reason you need to stop these events, then launch custom "mousedownSilent" and "mouseupSilent" events instead to keep the plugin working. See the demo file.
 
-Options :
+Options
+-------------------------
 
-You may provide a callback in the options that will be called whever an x-click is stopped : `$.preventXClick({ onPrevented: function(){} })`. The callback will be called in the context of the common ancestor element which triggered the click event, and receives this click event as first parameter.
+Specify them in your call `$.XClick(options)`
 
+- You might want to know when an x-click has been triggered. The `onTriggered` options lets you specify a callback function to achieve this.
+
+This callback function is called in the context of the common ancestor element which triggered the click event, and receives a data object as its first parameter. This object has the following properties : `event` is the click event, `mousedownElement` is the HTML object which triggered the mousedown event, and `mouseupElement` (same).
+
+- When an x-click is triggered, you might want to let it propagate (I'd be curious to know why, please share your use case). You can do that by having the onTriggered callback return true.
+
+- You might want to turn the plugin off to stop listening to mouse events, this can be achieved with the `enable` option. Call `$.XClick({ enable: false })`
+
+- By default, the plugin does nothing in browsers other than IE. To change this, set the `enableForAllBrowsers` option to true.
 
 The origin of x-clicks
 -------------------------
@@ -37,7 +46,6 @@ Why do x-clicks exist, and why only in IE ? It seems to be the only browser whic
 "...in general should fire click and dblclick events when the event target of the associated mousedown and mouseup events is the same element with no mouseout or mouseleave events intervening, and should fire click and dblclick events on the nearest common ancestor when the event targets of the associated mousedown and mouseup events are different."
 http://www.w3.org/TR/DOM-Level-3-Events/#events-mouseevent-event-order
 
-
 Humble thoughts for browser and directive makers
 -------------------------
 
@@ -45,8 +53,8 @@ The main problem with these x-click events is that it is hard to predict on whic
 
 Besides, if I wanted to listen for mousedown-and-up events accross two elements, I wouldn't rely on click-listeners on the common parent because it can change whenever I change the structure of my HTML.
 
-Furthermore, one might not even consider them as real functional clicks, it's a question of definition. In my use case, I came accross this issue when using select2 which tries to emulate a select field, which do not trigger click events in these circumstances. Well, select2 just cannot keep this annoying click event from firing (not without a plugin like preventXClick), since it is fired outside of the HTML it generates.
+Furthermore, one might not even consider them as real functional clicks, it's a question of definition. In my use case, I came accross this issue when using select2 which tries to emulate a select field, which do not trigger click events in these circumstances. Well, select2 just cannot keep this annoying click event from firing (not without a plugin like XClick), since it is fired outside of the HTML it generates.
 
 Speaking of which, it is annoying that using preventDefault on the mousedown and/or mouseup events won't help you prevent x-clicks. Although regular clicks on a unique element rightfully also work this way, it would make some sense to work differently with x-clicks. Finally, x-click events have no special properties that differentiate them from regular click events, that would be a nice thing to do.
 
-As far as I'm concerned, since x-clicks are so confusing, so hard to use, have almost no real purpose but are real troublemakers, I'd like them gone or at least have them trigger a different type of event. What about disabling them in IE until the W3 makes a new stand on this ? Feel free to share your thoughts.
+As far as I'm concerned, since x-clicks are so confusing, hard to use, have almost no real purpose but are real troublemakers, I'd like them gone or at least have them trigger a different type of event. What about disabling them in IE until the W3 makes a new stand on this ? Feel free to share your thoughts.

@@ -1,9 +1,9 @@
 {
-  "name": "preventxclick",
-  "title": "preventXClick",
-  "description": "Prevent x-clicks",
+  "name": "xclick",
+  "title": "XClick",
+  "description": "Predict and prevent x-clicks",
   "keywords": [
-    "xclick x-click click mouseup mousedown event ie internet explorer"
+    "xclick x-click click mouseup mousedown event propagation ie internet explorer"
   ],
   "version": "1.0",
   "author": {
@@ -21,8 +21,8 @@
       "url": "http://opensource.org/licenses/MIT"
     }
   ],
-  "homepage": "https://github.com/louisameline/preventXClick",
-  "docs": "https://github.com/louisameline/preventXClick",
+  "homepage": "https://github.com/louisameline/XClick",
+  "docs": "https://github.com/louisameline/XClick",
   "dependencies": {
     "jquery": ">=1.8"
   }

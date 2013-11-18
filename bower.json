@@ -1,7 +1,7 @@
 {
-  "name": "preventxclick",
+  "name": "xclick",
   "version": "1.0",
-  "main": ["preventxclick.js"],
+  "main": ["xclick.js"],
   "dependencies": {
     "jquery": ">=1.8"
   }
