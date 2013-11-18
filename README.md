@@ -1,4 +1,52 @@
 preventXClick
 =============
 
-Prevent x-clicks in Internet Explorer (jQuery plugin)
+Prevent x-clicks (jQuery plugin).
+-------------------------
+
+As of 2013/11/17, x-clicks happen in Internet Explorer *only*, at least from version 8 and above it seems.
+
+What I call an "x-click" is actually a regular click event which is triggered in the unusual circumstances described below.
+
+An x-click event is triggered on an element when this element is the closest common parent of two children elements, one of which having triggered a mousedown event, the other having triggered a mouseup event. So "x-click" stands for "a click spread across elements". See the demo file.
+
+At some point in your code, you may feel x-clicks are not really clicks. The preventXClick jQuery plugin helps you detect click events which are actually x-click events, so you can take action against them. There is currently no native way to detect x-clicks.
+
+
+Explanations and how-to
+-------------------------
+
+Requires jQuery >=1.8
+
+Just make this call : `$.preventXClick()`
+
+The plugin will start tracking bubbling mouse events (mouse down and up) to differentiate clicks and x-clicks. X-clicks are immediately stopped from propagating.
+
+The plugin needs all mousedown and mouseup events to bubble up to the body tag. If for some reason you need to stop these events, then launch custom "mousedownSilent" and "mouseupSilent" events instead to keep the plugin working.
+
+Options :
+
+You may provide a callback in the options that will be called whever an x-click is stopped : `$.preventXClick({ onPrevented: function(){} })`. The callback will be called in the context of the common ancestor element which triggered the click event, and receives this click event as first parameter.
+
+
+The origin of x-clicks
+-------------------------
+
+Why do x-clicks exist, and why only in IE ? It seems to be the only browser which implements this W3 directive :
+
+"...in general should fire click and dblclick events when the event target of the associated mousedown and mouseup events is the same element with no mouseout or mouseleave events intervening, and should fire click and dblclick events on the nearest common ancestor when the event targets of the associated mousedown and mouseup events are different."
+http://www.w3.org/TR/DOM-Level-3-Events/#events-mouseevent-event-order
+
+
+Humble thoughts for browser and directive makers
+-------------------------
+
+The main problem with these x-click events is that it is hard to predict on which element they will be triggered. If the user presses the mouse button on an element and releases it on another one in the page, the click event is triggered on a third element that remains to be determined. It makes them very hard to listen to and catch if you need to.
+
+Besides, if I wanted to listen for mousedown-and-up events accross two elements, I wouldn't rely on click-listeners on the common parent because it can change whenever I change the structure of my HTML.
+
+Furthermore, one might not even consider them as real functional clicks, it's a question of definition. In my use case, I came accross this issue when using select2 which tries to emulate a select field, which do not trigger click events in these circumstances. Well, select2 just cannot keep this annoying click event from firing (not without a plugin like preventXClick), since it is fired outside of the HTML it generates.
+
+Speaking of which, it is annoying that using preventDefault on the mousedown and/or mouseup events won't help you prevent x-clicks. Although regular clicks on a unique element rightfully also work this way, it would make some sense to work differently with x-clicks. Finally, x-click events have no special properties that differentiate them from regular click events, that would be a nice thing to do.
+
+As far as I'm concerned, since x-clicks are so confusing, so hard to use, have almost no real purpose but are real troublemakers, I'd like them gone or at least have them trigger a different type of event. What about disabling them in IE until the W3 makes a new stand on this ? Feel free to share your thoughts.

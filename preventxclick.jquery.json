@@ -1,0 +1,29 @@
+{
+  "name": "preventxclick",
+  "title": "preventXClick",
+  "description": "Prevent x-clicks",
+  "keywords": [
+    "xclick x-click click mouseup mousedown event ie internet explorer"
+  ],
+  "version": "1.0",
+  "author": {
+    "name": "Louis AMELINE"
+  },
+  "maintainers": [
+    {
+      "name": "Louis AMELINE",
+      "email": "evangun2001@yahoo.fr"
+    }
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    }
+  ],
+  "homepage": "https://github.com/louisameline/preventXClick",
+  "docs": "https://github.com/louisameline/preventXClick",
+  "dependencies": {
+    "jquery": ">=1.8"
+  }
+}
