@@ -54,8 +54,8 @@
 				// bind on body to track mousedown and mouseup events, it will allow us to be ready to catch the x-click
 				$('body')
 					// if for some reason you have to stop your mousedown/up events from bubbling up to body, trigger a custom "silentMouseup" or "silentMousedown" instead
-					.on('mousedown.xc ' + silentEventName_mousedown + '.xc', options.delegate, function(e){ lastElements.mousedown = e.target; })
-					.on('mouseup.xc ' + silentEventName_mouseup + '.xc', options.delegate, function(e){
+					.on('mousedown.xc ' + options.silentEventName_mousedown + '.xc', options.delegate, function(e){ lastElements.mousedown = e.target; })
+					.on('mouseup.xc ' + options.silentEventName_mouseup + '.xc', options.delegate, function(e){
 						
 						lastElements.mouseup = e.target;
 						
