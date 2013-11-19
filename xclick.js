@@ -13,6 +13,9 @@
 			enable: true,
 			// we do not want to waist time in browsers that do not generate x-clicks anyway. This option is mainly for debugging purposes.
 			enableForAllBrowsers: false,
+			// you may change the names of the silent custom event types we'll be listening to 
+			silentEventName_mousedown: 'mousedownSilent',
+			silentEventName_mouseup: 'mouseupSilent',
 			// callback function called when an x-click was just triggered. If the function does not return true, the event propagation is immediately stopped (default behavior).
 			// the callback will be called in the context of the common ancestor element which triggered the click event, and receives this click event as first parameter.
 			onTriggered: function(){ return false; }
@@ -51,8 +54,8 @@
 				// bind on body to track mousedown and mouseup events, it will allow us to be ready to catch the x-click
 				$('body')
 					// if for some reason you have to stop your mousedown/up events from bubbling up to body, trigger a custom "silentMouseup" or "silentMousedown" instead
-					.on('mousedown.xc mousedownSilent.xc', options.delegate, function(e){ lastElements.mousedown = e.target; })
-					.on('mouseup.xc mouseupSilent.xc', options.delegate, function(e){
+					.on('mousedown.xc ' + silentEventName_mousedown + '.xc', options.delegate, function(e){ lastElements.mousedown = e.target; })
+					.on('mouseup.xc ' + silentEventName_mouseup + '.xc', options.delegate, function(e){
 						
 						lastElements.mouseup = e.target;
 						
@@ -82,10 +85,10 @@
 							// we bind on the closest ancestor to catch the x-click
 							$closestCommonAncestor.xcBindFirst('click.xc', function(event){
 								
-								// unbind itself first, in case the callback function want to trigger click events
+								// unbind itself first, in case the callback function wants to trigger click events
 								$(this).off('click.xc');
 								
-								// make sure the click was triggered on this element (as an x-click would be), not bubbling from children. This reduces the risk to catch a wrong click event
+								// make sure the click was triggered on this element (as an x-click would be), not bubbling from children. This reduces the risk to catch a wrong click event (edge case)
 								if(event.target === this){
 									
 									// callback

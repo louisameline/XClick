@@ -36,6 +36,8 @@ This callback function is called in the context of the common ancestor element w
 
 - When an x-click is triggered, you might want to let it propagate (I'd be curious to know why, please share your use case). You can do that by having the onTriggered callback return true.
 
+- You may want to change the name of the custom silent mouse events we'll be listening to. By default, they are 'mousedownSilent' and 'mouseupSilent'. Change that with the `silentEventName_mousedown` and `silentEventName_mouseup` options.
+
 - You might want to turn the plugin off to stop listening to mouse events, this can be achieved with the `enable` option. Call `$.XClick({ enable: false })`
 
 - By default, the plugin does nothing in browsers other than IE. To change this, set the `enableForAllBrowsers` option to true. It's mainly for debugging purposes.
