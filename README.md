@@ -6,7 +6,7 @@ Demo file here http://louisameline.github.io/XClick
 Predict and prevent x-clicks (jQuery plugin).
 -------------------------
 
-As of 2013/11/17, x-clicks happen in Internet Explorer *only*. Not sure when this behavior was implemented.
+As of 2013/11/17, x-clicks happen in Internet Explorer *only*, in all versions (from IE5 to current IE11).
 
 What I call an "x-click" is actually a regular click event which is triggered in the unusual circumstances described below.
 
