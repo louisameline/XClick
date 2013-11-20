@@ -40,8 +40,7 @@
 			handlers.splice(0, 0, handler);
 		});
 	};
-
-	// set the parameter to true
+	
 	$.XClick = function(options){
 		
 		options = $.extend({}, defaultOptions, options || {});
