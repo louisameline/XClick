@@ -17,7 +17,7 @@
 			silentEventName_mousedown: 'mousedownSilent',
 			silentEventName_mouseup: 'mouseupSilent',
 			// callback function called when an x-click was just triggered. If the function does not return true, the event propagation is immediately stopped (default behavior).
-			// the callback will be called in the context of the common ancestor element which triggered the click event, and receives this click event as first parameter.
+			// the callback will be called in the context of the common ancestor element which triggered the click event, and receives a data object as first parameter, having 'event', 'mousedownElement' and 'mouseupElement' properties.
 			onTriggered: function(){ return false; }
 		},
 		lastElements = {};
