@@ -1,9 +1,9 @@
 XClick
 =============
 
-Demo file here http://louisameline.github.io/XClick
+A jQuery plugin, 1.3ko minified. Demo file here http://louisameline.github.io/XClick
 
-Predict and prevent x-clicks (jQuery plugin).
+Predict and prevent x-clicks
 -------------------------
 
 As of 2013/11/17, x-clicks happen in Internet Explorer *only*, in all versions (from IE5 to current IE11).
