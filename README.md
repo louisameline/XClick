@@ -23,9 +23,9 @@ Just make this call : `$.XClick()`
 
 The plugin will start listening to mouse events (mouse down and up) to predict upcoming x-clicks and then sets a handler to catch them when they fire. By default, x-clicks are immediately stopped from propagating.
 
-***Warning*** : XClick tries to be the first to catch the x-click event triggered on the common ancestor element. However, if you bound handlers on that element *not using jQuery*, XClick will not be able to be the first and your handlers on that element will still fire.
+***Caveat*** : XClick tries to be the first to catch the x-click event triggered on the common ancestor element. However, if you bound handlers on that element *not using jQuery*, XClick will not be able to be the first and your handlers on that element will still fire.
 
-***Warning2*** : the plugin needs all mousedown and mouseup events to bubble up to the body tag. If for some reason you need to stop these events, then launch custom "mousedownSilent" and "mouseupSilent" events instead to keep the plugin working. See the demo file.
+***Caveat 2*** : the plugin needs all mousedown and mouseup events to bubble up to the body tag. If for some reason you need to stop these events, then launch custom "mousedownSilent" and "mouseupSilent" events instead to keep the plugin working. See the demo file.
 
 Options
 -------------------------
