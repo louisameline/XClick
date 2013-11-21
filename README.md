@@ -1,7 +1,7 @@
 XClick
 =============
 
-A jQuery plugin, 1.3ko minified. Demo file here http://louisameline.github.io/XClick
+A jQuery plugin, 2.3ko minified. Demo file here http://louisameline.github.io/XClick
 
 Predict and prevent x-clicks
 -------------------------
@@ -19,30 +19,47 @@ Explanations and how-to
 
 Requires jQuery >=1.8
 
-Just make this call : `$.XClick()`
+Just make this call : `var XClick = new $.XClick();`
 
 The plugin will start listening to mouse events (mouse down and up) to predict upcoming x-clicks and then sets a handler to catch them when they fire. By default, x-clicks are immediately stopped from propagating.
 
-***Caveat*** : XClick tries to be the first to catch the x-click event triggered on the common ancestor element. However, if you bound handlers on that element *not using jQuery*, XClick will not be able to be the first and your handlers on that element will still fire.
+***Caveat*** : XClick tries to be the first to catch the x-click event triggered on the common ancestor element. However, if you bound handlers on that element *not using jQuery*, by default XClick will not be able to be the first and your handlers on that element will still fire. Check the `prebind` method for a workaround.
 
 ***Caveat 2*** : the plugin needs all mousedown and mouseup events to bubble up to the body tag. If for some reason you need to stop these events, then launch custom "mousedownSilent" and "mouseupSilent" events instead to keep the plugin working. See the demo file.
 
 Options
 -------------------------
 
-Specify options in your calls : `$.XClick(options)`
+Specify options in your init call : `new $.XClick(options)`
 
-- You might want to know when an x-click has been triggered. The `onTriggered` option lets you specify a callback function to achieve this.
+- `onTriggered` : you might want to know when an x-click has been triggered. This option lets you specify a callback function to achieve this.
 
 This callback function is called in the context of the common ancestor element which triggered the click event, and receives a data object as its first parameter. This object has the following properties : `event` is the click event, `mousedownElement` is the HTML object which triggered the mousedown event, and `mouseupElement` (same).
 
 - When an x-click is triggered, you might want to let it propagate (I'd be curious to know why, please share your use case). You can do that by having the onTriggered callback return true.
 
-- You may want to change the name of the custom silent mouse events we'll be listening to. By default, they are 'mousedownSilent' and 'mouseupSilent'. Change that with the `silentEventName_mousedown` and `silentEventName_mouseup` options.
+- `silentEventName_mousedown` and `silentEventName_mouseup` : you may want to change the name of the custom silent mouse events we'll be listening to. By default, they are 'mousedownSilent' and 'mouseupSilent'. Use this option to change them.
 
-- You might want to turn the plugin off to stop listening to mouse events, this can be achieved with the `enable` option. Call `$.XClick({ enable: false })`
+- `enableForAllBrowsers` : by default, the plugin does nothing in browsers other than IE. To change this, set this option to true. It's mainly for debugging purposes.
 
-- By default, the plugin does nothing in browsers other than IE. To change this, set the `enableForAllBrowsers` option to true. It's mainly for debugging purposes.
+- `delegate` : if for some reason you only want to deal with x-clicks generated in a branch of your DOM tree, provide a selector.
+
+Methods
+-------------------------
+
+Call the following methods with `XClick.methodname(argument)`
+
+- `disable` : turns the plugin off, it will stop listening to mouse events
+
+- `enable` : turn the plugin on again
+
+- `destroy` : disables the plugin and also unbinds any pre-bound elements you may have specified. Warning : you don't want to use this method if you are going to use XClick again later, because of prebound handlers.
+
+- `prebind` : *by default*, if you set a click handler on an element without using jQuery's binding methods and if an x-click is triggered on that element, XClick will not be able to catch the event before your own handler is fired. To fix this, you can either use jQuery to set your handler, or you can use this `prebind` method on your element before you set your own handler. Just call `XClick('prebind', '#myElement')` or `XClick('prebind', $element)`. This method is handy when you know which elements are likely to receive x-clicks.
+
+- `setOptions` : give it an object of options as first parameter and they will overwrite the current options. Only the `onTriggered` option will take effect immediately, the others will be taken into account after a call to the `reset` method
+
+- `reset` : meant to be used after a change in options (see the `setOptions` method)
 
 The origin of x-clicks
 -------------------------
@@ -70,4 +87,4 @@ As far as I'm concerned, since x-clicks are so confusing, hard to use, have almo
 Alternative solutions
 -------------------------
 
-For future reference, an interesting alternative solution to first-binding has been proposed here : https://github.com/ivaynberg/select2/pull/1920. It consists in detaching and reattaching the common ancestor at mouseup. It does stop the click event, but may also have side-effects on the children elements of the common ancestor (iframes refreshing, upload fields reset, brief css glitch, maybe more).
+For future reference, an interesting alternative solution to first-binding has been proposed here : https://github.com/ivaynberg/select2/pull/1920. It consists in detaching and immediately reattaching the element which got the mousedown event. It does prevent the click event, but may also have side-effects on the children elements of the detached element (iframes refreshing, upload fields reset, brief css glitch, maybe more).

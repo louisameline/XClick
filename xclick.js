@@ -6,6 +6,8 @@
 */
 ;(function($){
 	
+	// "CONSTANTS"
+	
 	var defaultOptions = {
 			// if for some reason you want to deal with x-clicks triggered only in a given branch of your DOM tree
 			delegate: '',
@@ -19,14 +21,14 @@
 			// callback function called when an x-click was just triggered. If the function does not return true, the event propagation is immediately stopped (default behavior).
 			// the callback will be called in the context of the common ancestor element which triggered the click event, and receives a data object as first parameter, having 'event', 'mousedownElement' and 'mouseupElement' properties.
 			onTriggered: function(){ return false; }
-		},
-		lastElements = {};
-	
+		};
 	// we have to know if the browser generates x-clicks. Not sure if there is another way than browser detection (script-triggered mouse events do not trigger an x-click), suggestions are welcome.
 	var xclickSupport = false;
 	// look for MSIE or rv:11 (IE11)
 	if(navigator.userAgent.indexOf('MSIE') !== -1 || navigator.userAgent.indexOf('rv:11') !== -1) xclickSupport = true;
 	
+	
+	// BIND-FIRST PLUGIN
 	// a function to set a function as a first handler, in order to stop the x-click event before any other handler can fire
 	// warning: this binds on the internals of jQuery as there is no proper method to do this. Be careful to test everytime you upgrade to a new version of jQuery.
 	$.fn.xcBindFirst = function(name, fn) {
@@ -41,33 +43,101 @@
 		});
 	};
 	
-	$.XClick = function(options){
+	
+	// XCLICK PLUGIN
+	$.XClick = function(){
 		
-		options = $.extend({}, defaultOptions, options || {});
+		var self = this;
 		
-		if(xclickSupport || options.enableForAllBrowsers){
+		
+		// LIST OF INSTANCE VARIABLES
+		
+		// if at some point we know an x-click is coming up, this variable will contain the element it is supposed to be triggered on. Will be used when handlers fire to know if they should stop the event
+		self.expectingElement = null;
+		// we always store the latest elements who got mousedown and mouseup events, for comparison
+		self.lastElements = {};
+		self.options = $.extend({}, defaultOptions);
+		// will be used at destroy
+		self.preboundElements = [];
+		
+		
+		// PRIVATE METHODS
+		
+		self.onXClick = function(event, context){
 			
-			// enforcing the prevention system
-			if(options.enable === true){
+			// unbind itself first (this does not concern our pre-bound handlers, not the same namespace), in case the callback function wants to trigger click events
+			$(context).off('click.xc');
+			
+			// make sure the click was triggered on an element which expects an x-click, and that the element is not bubbling from some child. This reduces the risk to catch a wrong click event (edge case)
+			if(context === self.expectingElement && context === event.target){
+				
+				// reset this first (this is for prebound handlers, same reason as unbinding above)
+				self.expectingElement = null;
+				
+				// callback
+				var letGo = self.options.onTriggered.call(context, {
+					event: event,
+					mousedownElement: self.lastElements.mousedown,
+					mouseupElement: self.lastElements.mouseup
+				});
+				
+				// stop the event unless the callback function returned true
+				if(letGo !== true) event.stopImmediatePropagation();
+			}
+			else {
+				// reset this anyway : if the handler somehow caught a wrong click event we're not expecting anything after that
+				self.expectingElement = null;
+			}
+		};
+		
+		// this handler will fire at each click on the element it is bound on and will check if an x-click is expected on it
+		self.preboundHandler = function(event, context){
+			if(context === self.expectingElement) self.onXClick(event, context);
+		};
+		
+		
+		// PUBLIC METHODS
+		
+		this.destroy = function(){
+			
+			// unbind body tag
+			self.disable();
+			
+			// unbind pre-bound elements
+			$.each(self.preboundElements, function(i, $el){
+				$el
+					.removeData('xcPrebound')
+					.off('click.xcPrebound');
+			});
+			
+			delete this;
+		};
+		
+		// set listeners on body tag
+		self.enable = function(){
+			
+			if(xclickSupport || self.options.enableForAllBrowsers){
 				
 				// bind on body to track mousedown and mouseup events, it will allow us to be ready to catch the x-click
 				$('body')
 					// if for some reason you have to stop your mousedown/up events from bubbling up to body, trigger a custom "silentMouseup" or "silentMousedown" instead
-					.on('mousedown.xc ' + options.silentEventName_mousedown + '.xc', options.delegate, function(e){ lastElements.mousedown = e.target; })
-					.on('mouseup.xc ' + options.silentEventName_mouseup + '.xc', options.delegate, function(e){
+					.on('mousedown.xc ' + self.options.silentEventName_mousedown + '.xc', self.options.delegate, function(e){
+						self.lastElements.mousedown = e.target; 
+					})
+					.on('mouseup.xc ' + self.options.silentEventName_mouseup + '.xc', self.options.delegate, function(e){
 						
-						lastElements.mouseup = e.target;
+						self.lastElements.mouseup = e.target;
 						
 						// compare with the mousedown element
 						if(
 							// if one of the elements is not defined, we let the event go. It happens when one of the mouse events was not triggered or not caught by our listeners and that a .click() call is made afterwards
-							lastElements.mousedown && lastElements.mouseup
+							self.lastElements.mousedown && self.lastElements.mouseup
 							// make sure the elements are different
-							&& lastElements.mousedown !== lastElements.mouseup
+							&& self.lastElements.mousedown !== self.lastElements.mouseup
 						){
 							// we determine which element is the closest ancestor
-							var mdElParents = $(lastElements.mousedown).parents(),
-								muElParents = $(lastElements.mouseup).parents(),
+							var mdElParents = $(self.lastElements.mousedown).parents(),
+								muElParents = $(self.lastElements.mouseup).parents(),
 								$closestCommonAncestor = null;
 							
 							$.each(mdElParents, function(i, el){
@@ -81,38 +151,71 @@
 								if($closestCommonAncestor) return false;
 							});
 							
-							// we bind on the closest ancestor to catch the x-click
-							$closestCommonAncestor.xcBindFirst('click.xc', function(event){
-								
-								// unbind itself first, in case the callback function wants to trigger click events
-								$(this).off('click.xc');
-								
-								// make sure the click was triggered on this element (as an x-click would be), not bubbling from children. This reduces the risk to catch a wrong click event (edge case)
-								if(event.target === this){
-									
-									// callback
-									var letGo = options.onTriggered.call(this, {
-										event: event,
-										mousedownElement: lastElements.mousedown,
-										mouseupElement: lastElements.mouseup
-									});
-									
-									// stop the event unless the callback function returned true
-									if(letGo !== true) event.stopImmediatePropagation();
-								}
-							});
+							// will be used by our handler
+							self.expectingElement = $closestCommonAncestor[0];
 							
-							// if the browser does not produce x-clicks, the handler we just bound will never be called and must be unbound before it catches a click it was not supposed to catch
-							setTimeout(function(){
-								$closestCommonAncestor.off('click.xc');
-							}, 0);
+							// if a handler has not already been bound to the common ancestor (see pre-bind method)
+							if(!$closestCommonAncestor.data('xcPrebound')){
+								
+								// we bind on it to catch the x-click
+								$closestCommonAncestor.xcBindFirst('click.xc', function(event){
+									self.onXClick(event, this);
+								});
+								
+								// if the browser actually does not produce x-clicks, the handler we just bound will never be called and must be unbound before it catches a click it was not supposed to catch
+								setTimeout(function(){
+									$closestCommonAncestor.off('click.xc');
+									self.expectingElement = null;
+								}, 0);
+							}
 						}
 					});
 			}
-			// canceling the prevention system
-			else {
-				$('body').off('.xc');
-			}
+			return self;
+		};
+		
+		self.disable = function(){
+			//stop listening to mouse events. Note : this is not a destroy, we do not unbind pre-bound elements
+			$('body').off('.xc');
+			return self;
+		};
+		
+		// this method is to be called in the form XClick('options', {object of options})
+		self.setOptions = function(options){
+			$.extend(self.options, options);
+			return self;
+		};
+		
+		// to bind an XClick handler on an element before any other handler (even we the element may never receive an x-click), so it is always fired first (can be an issue for people who make bindings without jQuery)
+		self.prebind = function(param){
+			
+			var $el = (typeof param === 'string') ? $(param) : param;
+			$el
+				.data('xcPrebound', true)
+				.on('click.xcPrebound', function(event){
+					self.preboundHandler(event, this);
+				});
+			
+			// remember for destroy
+			self.preboundElements.push($el);
+			
+			return self;
 		}
+		
+		// will unbind and re-bind the body tag. May be used after a change in options
+		self.reset = function(){
+			self.disable();
+			self.enable();
+			return self;
+		}
+		
+		
+		// XCLICK INITIALIZATION (first param is the options object or is undefined)
+		
+		// if options are provided, save them
+		self.setOptions(arguments[0]);
+		
+		// will start the plugin if required
+		self.enable();
 	}
 })(jQuery);
