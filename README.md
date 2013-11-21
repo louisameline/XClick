@@ -30,7 +30,7 @@ The plugin will start listening to mouse events (mouse down and up) to predict u
 Options
 -------------------------
 
-Specify options in your init call : `new $.XClick(options)`
+Specify options in your init call : `new $.XClick(options)` (where options is an object)
 
 - `onTriggered` : you might want to know when an x-click has been triggered. This option lets you specify a callback function to achieve this.
 
@@ -47,7 +47,7 @@ This callback function is called in the context of the common ancestor element w
 Methods
 -------------------------
 
-Call the following methods with `XClick.methodname(argument)`
+Call the following methods with `XClick.methodname([argument])`
 
 - `disable` : turns the plugin off, it will stop listening to mouse events
 
@@ -55,7 +55,7 @@ Call the following methods with `XClick.methodname(argument)`
 
 - `destroy` : disables the plugin and also unbinds any pre-bound elements you may have specified. Warning : you don't want to use this method if you are going to use XClick again later, because of prebound handlers.
 
-- `prebind` : *by default*, if you set a click handler on an element without using jQuery's binding methods and if an x-click is triggered on that element, XClick will not be able to catch the event before your own handler is fired. To fix this, you can either use jQuery to set your handler, or you can use this `prebind` method on your element before you set your own handler. Just call `XClick('prebind', '#myElement')` or `XClick('prebind', $element)`. This method is handy when you know which elements are likely to receive x-clicks.
+- `prebind` : *by default*, if you set a click handler on an element without using jQuery's binding methods and if an x-click is triggered on that element, XClick will not be able to catch the event before your own handler is fired. To fix this, you can either use jQuery to set your handler, or you can use this `prebind` method on your element before you set your own handler. Just call `XClick.prebind('#myElement')` or `XClick.prebind($element)`. This method is handy when you know which elements are likely to receive x-clicks.
 
 - `setOptions` : give it an object of options as first parameter and they will overwrite the current options. Only the `onTriggered` option will take effect immediately, the others will be taken into account after a call to the `reset` method
 
