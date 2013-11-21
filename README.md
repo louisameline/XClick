@@ -23,7 +23,9 @@ Just make this call : `$.XClick()`
 
 The plugin will start listening to mouse events (mouse down and up) to predict upcoming x-clicks and then sets a handler to catch them when they fire. By default, x-clicks are immediately stopped from propagating.
 
-***Warning*** : the plugin needs all mousedown and mouseup events to bubble up to the body tag. If for some reason you need to stop these events, then launch custom "mousedownSilent" and "mouseupSilent" events instead to keep the plugin working. See the demo file.
+***Warning*** : XClick tries to be the first to catch the x-click event triggered on the common ancestor element. However, if you bound handlers on that element *not using jQuery*, XClick will not be able to be the first and your handlers on that element will still fire.
+
+***Warning2*** : the plugin needs all mousedown and mouseup events to bubble up to the body tag. If for some reason you need to stop these events, then launch custom "mousedownSilent" and "mouseupSilent" events instead to keep the plugin working. See the demo file.
 
 Options
 -------------------------
@@ -50,6 +52,8 @@ Why do x-clicks exist and why only in IE ? It seems to be the only browser which
 "...in general should fire click and dblclick events when the event target of the associated mousedown and mouseup events is the same element with no mouseout or mouseleave events intervening, and should fire click and dblclick events on the nearest common ancestor when the event targets of the associated mousedown and mouseup events are different."
 http://www.w3.org/TR/DOM-Level-3-Events/#events-mouseevent-event-order
 
+A discussion has been opened here to ask Microsft to consider revising the x-click behavior. You will find arguments that actually support x-clicks : https://connect.microsoft.com/IE/feedback/details/809003/unexpected-click-event-triggered-when-the-elements-below-cursor-at-mousedown-and-mouseup-events-are-different
+
 Humble thoughts for browser and directive makers
 -------------------------
 
@@ -62,3 +66,8 @@ Furthermore, one might not even consider them as real functional clicks, it's a 
 Speaking of which, it is annoying that using preventDefault on the mousedown and/or mouseup events won't help you prevent x-clicks. Although regular clicks on a unique element rightfully also work this way, it would make some sense to work differently with x-clicks. Finally, x-click events have no special properties that differentiate them from regular click events, that would be a nice thing to add.
 
 As far as I'm concerned, since x-clicks are so confusing, hard to use, have almost no real purpose but are real troublemakers, I'd like them gone or at least have them trigger a different type of event. What about disabling them in IE until the W3 makes a new stand on this ? Feel free to share your thoughts.
+
+Alternative solutions
+-------------------------
+
+For future reference, an interesting alternative solution to first-binding has been proposed here : https://github.com/ivaynberg/select2/pull/1920. It consists in detaching and reattaching the common ancestor at mouseup. It does stop the click event, but may also have side-effects on the children elements of the common ancestor (iframes refreshing, upload fields reset, brief css glitch, maybe more).
