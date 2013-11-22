@@ -1,6 +1,6 @@
 /*
 	A jQuery plugin to predict and prevent "x-clicks" events.
-	Version 1.1.1 - Released on 2013-11-18
+	Version 1.1.2 - Released on 2013-11-18
 	More info and discussion at : https://github.com/louisameline/XClick
 	Released under MIT license
 */
