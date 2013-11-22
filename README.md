@@ -38,22 +38,20 @@ This callback function is called in the context of the common ancestor element w
 
 - When an x-click is triggered, you might want to let it propagate (I'd be curious to know why, please share your use case). You can do that by having the onTriggered callback return true.
 
-- `silentEventName_mousedown` and `silentEventName_mouseup` : you may want to change the name of the custom silent mouse events we'll be listening to. By default, they are 'mousedownSilent' and 'mouseupSilent'. Use this option to change them.
+- `silentEventName_mousedown` and `silentEventName_mouseup` : you may want to change the name of the custom silent mouse events XClick will be listening to. By default, they are 'mousedownSilent' and 'mouseupSilent'. Use this option to change them.
 
-- `enableForAllBrowsers` : by default, the plugin does nothing in browsers other than IE. To change this, set this option to true. It's mainly for debugging purposes.
-
-- `delegate` : if for some reason you only want to deal with x-clicks generated in a branch of your DOM tree, provide a selector.
+- `delegate` : if for some reason you only want to deal with x-clicks generated in a branch of your DOM tree, provide a selector which corresponds to the root of this branch.
 
 Methods
 -------------------------
 
-Call the following methods with `XClick.methodname([argument])`
+Call the following methods with `XClick.methodname()`
 
-- `disable` : turns the plugin off, it will stop listening to mouse events
+- `disable` : turns the plugin off, XClick will stop listening to mouse events
 
-- `enable` : turn the plugin on again
+- `enable` : turns the plugin on again
 
-- `destroy` : disables the plugin and also unbinds any pre-bound elements you may have specified. Warning : you don't want to use this method if you are going to use XClick again later, because of prebound handlers.
+- `destroy` : disables the plugin and also unbinds any pre-bound elements you may have specified. Obviously, you don't want to use this method if you are going to use XClick again later.
 
 - `prebind` : *by default*, if you set a click handler on an element without using jQuery's binding methods and if an x-click is triggered on that element, XClick will not be able to catch the event before your own handler is fired. To fix this, you can either use jQuery to set your handler, or you can use this `prebind` method on your element before you set your own handler. Just call `XClick.prebind('#myElement')` or `XClick.prebind($element)`. This method is handy when you know which elements are likely to receive x-clicks.
 
