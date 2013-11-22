@@ -3,9 +3,9 @@
   "title": "XClick",
   "description": "Predict and prevent x-clicks",
   "keywords": [
-    "xclick x-click click mouseup mousedown event propagation ie internet explorer"
+    "xclick", "x-click", "click", "mouseup", "mousedown", "event", "propagation", "ie", "internet", "explorer"
   ],
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": {
     "name": "Louis AMELINE"
   },
@@ -23,6 +23,8 @@
   ],
   "homepage": "https://github.com/louisameline/XClick",
   "docs": "https://github.com/louisameline/XClick",
+  "demo": "http://louisameline.github.io/XClick",
+  "download": "https://github.com/louisameline/XClick/archive/master.zip",
   "dependencies": {
     "jquery": ">=1.8"
   }
