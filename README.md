@@ -1,7 +1,7 @@
 XClick
 =============
 
-A jQuery plugin, 2.3ko minified. Demo file here http://louisameline.github.io/XClick
+A jQuery plugin, 2.4ko minified. Demo file here http://louisameline.github.io/XClick
 
 Predict and prevent x-clicks
 -------------------------

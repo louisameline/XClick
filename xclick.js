@@ -1,6 +1,6 @@
 /*
 	A jQuery plugin to predict and prevent "x-clicks" events.
-	Version 1.1.2 - Released on 2013-11-18
+	Version 1.2.0 - Released on 2013-11-23
 	More info and discussion at : https://github.com/louisameline/XClick
 	Released under MIT license
 */
@@ -135,13 +135,13 @@
 							// make sure the elements are different
 							&& self.lastElements.mousedown !== self.lastElements.mouseup
 						){
-							// we determine which element is the closest ancestor
-							var mdElParents = $(self.lastElements.mousedown).parents(),
-								muElParents = $(self.lastElements.mouseup).parents(),
+							// we determine which element is the closest ancestor. Addback() will put elements in document order, we need to reverse them
+							var mdElLineage = $(self.lastElements.mousedown).parents().addBack().get().reverse(),
+								muElLineage = $(self.lastElements.mouseup).parents().addBack().get().reverse(),
 								$closestCommonAncestor = null;
 							
-							$.each(mdElParents, function(i, el){
-								$.each(muElParents, function(j, el2){
+							$.each(mdElLineage, function(i, el){
+								$.each(muElLineage, function(j, el2){
 									
 									if(el === el2 || $(el).has(el2).length > 0){
 										$closestCommonAncestor = $(el);
