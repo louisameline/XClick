@@ -1,6 +1,6 @@
 /*
 	A jQuery plugin to predict and prevent "x-clicks" events.
-	Version 1.2.0 - Released on 2013-11-23
+	Version 1.2.1 - Released on 2014-01-09
 	More info and discussion at : https://github.com/louisameline/XClick
 	Released under MIT license
 */
@@ -13,7 +13,7 @@
 			delegate: '',
 			// to put the plugin to sleep (stops listening to mouse events)
 			enable: true,
-			// we do not want to waist time in browsers that do not generate x-clicks anyway. This option is mainly for debugging purposes.
+			// we do not want to waste time in browsers that do not generate x-clicks anyway. This option is mainly for debugging purposes.
 			enableForAllBrowsers: false,
 			// you may change the names of the silent custom event types we'll be listening to 
 			silentEventName_mousedown: 'mousedownSilent',
@@ -24,8 +24,11 @@
 		};
 	// we have to know if the browser generates x-clicks. Not sure if there is another way than browser detection (script-triggered mouse events do not trigger an x-click), suggestions are welcome.
 	var xclickSupport = false;
-	// look for MSIE or rv:11 (IE11)
-	if(navigator.userAgent.indexOf('MSIE') !== -1 || navigator.userAgent.indexOf('rv:11') !== -1) xclickSupport = true;
+	// look for MSIE or Trident + rv:1* (IE11+)
+	var n = navigator.userAgent;
+	if(		n.indexOf('MSIE') !== -1
+		|| (n.indexOf('Trident') !== -1 && n.indexOf(' rv:1') !== -1)
+	) xclickSupport = true;
 	
 	
 	// BIND-FIRST PLUGIN
