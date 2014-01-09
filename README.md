@@ -42,6 +42,8 @@ This callback function is called in the context of the common ancestor element w
 
 - `delegate` : if for some reason you only want to deal with x-clicks generated in a branch of your DOM tree, provide a selector which corresponds to the root of this branch.
 
+- `enableForAllBrowsers` (default: false) : set this option to true if you want the plugin to be active even when the browser has not been identified as Internet Explorer. The purpose of this option : the XClick project will be updated everytime a new technique is needed to identify a new version of IE... but if you are not willing to update XClick in the future and still want to make sure it catches x-clicks, then just let XClick run no matter what the browser is.
+
 Methods
 -------------------------
 
