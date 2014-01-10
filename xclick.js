@@ -1,6 +1,6 @@
 /*
 	A jQuery plugin to predict and prevent "x-clicks" events.
-	Version 1.2.1 - Released on 2014-01-09
+	Version 1.2.2 - Released on 2014-01-10
 	More info and discussion at : https://github.com/louisameline/XClick
 	Released under MIT license
 */
@@ -59,10 +59,10 @@
 		self.expectingElement = null;
 		// we always store the latest elements who got mousedown and mouseup events, for comparison
 		self.lastElements = {};
+		self.mdElLineage = [];
 		self.options = $.extend({}, defaultOptions);
 		// will be used at destroy
 		self.preboundElements = [];
-		
 		
 		// PRIVATE METHODS
 		
@@ -125,7 +125,9 @@
 				$('body')
 					// if for some reason you have to stop your mousedown/up events from bubbling up to body, trigger a custom "silentMouseup" or "silentMousedown" instead
 					.on('mousedown.xc ' + self.options.silentEventName_mousedown + '.xc', self.options.delegate, function(e){
-						self.lastElements.mousedown = e.target; 
+						self.lastElements.mousedown = e.target;
+						// we have to save the lineage now, before the element is potentially removed from DOM
+						self.mdElLineage = $(self.lastElements.mousedown).parents().addBack().get().reverse()
 					})
 					.on('mouseup.xc ' + self.options.silentEventName_mouseup + '.xc', self.options.delegate, function(e){
 						
@@ -139,11 +141,10 @@
 							&& self.lastElements.mousedown !== self.lastElements.mouseup
 						){
 							// we determine which element is the closest ancestor. Addback() will put elements in document order, we need to reverse them
-							var mdElLineage = $(self.lastElements.mousedown).parents().addBack().get().reverse(),
-								muElLineage = $(self.lastElements.mouseup).parents().addBack().get().reverse(),
+							var muElLineage = $(self.lastElements.mouseup).parents().addBack().get().reverse(),
 								$closestCommonAncestor = null;
 							
-							$.each(mdElLineage, function(i, el){
+							$.each(self.mdElLineage, function(i, el){
 								$.each(muElLineage, function(j, el2){
 									
 									if(el === el2 || $(el).has(el2).length > 0){
