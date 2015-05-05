@@ -6,7 +6,7 @@ A jQuery plugin, 2.4ko minified. Demo file here http://louisameline.github.io/XC
 Predict and prevent x-clicks
 -------------------------
 
-As of 2013/11/17, x-clicks happen in Internet Explorer *only*, in all versions (from IE5 to current IE11).
+As of 2013/11/17, x-clicks happen in Internet Explorer in all versions (from IE5 to current IE11) and in Chrome (v42+ at least).
 
 What I call an "x-click" is actually a regular click event which is triggered in the unusual circumstances described below.
 
@@ -42,7 +42,7 @@ This callback function is called in the context of the common ancestor element w
 
 - `delegate` : if for some reason you only want to deal with x-clicks generated in a branch of your DOM tree, provide a selector which corresponds to the root of this branch.
 
-- `enableForAllBrowsers` (default: false) : set this option to true if you want the plugin to be active even when the browser has not been identified as Internet Explorer. The purpose of this option : the XClick project will be updated everytime a new technique is needed to identify a new version of IE... but if you are not willing to update XClick in the future and still want to make sure it catches x-clicks, then just let XClick run no matter what the browser is.
+- `enableForAllBrowsers` (default: false) : set this option to true if you want the plugin to be active even when the browser has not been identified as IE or Chrome. The purpose of this option : the XClick project will be updated everytime a new technique is needed to identify a new version of IE... but if you are not willing to update XClick in the future and still want to make sure it catches x-clicks, then just let XClick run no matter what the browser is.
 
 Methods
 -------------------------
@@ -64,12 +64,13 @@ Call the following methods with `XClick.methodname()`
 The origin of x-clicks
 -------------------------
 
-Why do x-clicks exist and why only in IE ? It seems to be the only browser which implements this W3 directive :
+Why do x-clicks only exist in IE and Chrome ? They implement this W3 directive :
 
 "...in general should fire click and dblclick events when the event target of the associated mousedown and mouseup events is the same element with no mouseout or mouseleave events intervening, and should fire click and dblclick events on the nearest common ancestor when the event targets of the associated mousedown and mouseup events are different."
 http://www.w3.org/TR/DOM-Level-3-Events/#events-mouseevent-event-order
 
-A discussion has been opened here to ask Microsft to consider revising the x-click behavior. You will find arguments that actually support x-clicks : https://connect.microsoft.com/IE/feedback/details/809003/unexpected-click-event-triggered-when-the-elements-below-cursor-at-mousedown-and-mouseup-events-are-different
+A discussion has been opened here to ask Microsoft to consider revising the x-click behavior. You will find arguments that actually support x-clicks : https://connect.microsoft.com/IE/feedback/details/809003/unexpected-click-event-triggered-when-the-elements-below-cursor-at-mousedown-and-mouseup-events-are-different
+... and same thing here for Chrome : https://code.google.com/p/chromium/issues/detail?id=484655
 
 Humble thoughts for browser and directive makers
 -------------------------
@@ -82,7 +83,7 @@ Furthermore, one might not even consider them as real functional clicks, it's a 
 
 Speaking of which, it is annoying that using preventDefault on the mousedown and/or mouseup events won't help you prevent x-clicks. Although regular clicks on a unique element rightfully also work this way, it would make some sense to work differently with x-clicks. Finally, x-click events have no special properties that differentiate them from regular click events, that would be a nice thing to add.
 
-As far as I'm concerned, since x-clicks are so confusing, hard to use, have almost no real purpose but are real troublemakers, I'd like them gone or at least have them trigger a different type of event. What about disabling them in IE until the W3 makes a new stand on this ? Feel free to share your thoughts.
+As far as I'm concerned, since x-clicks are so confusing, hard to use, have little use but are real troublemakers, I'd like them gone or at least have them trigger a different type of event. What about disabling them until the W3 considers the issue again ? Feel free to share your thoughts.
 
 Alternative solutions
 -------------------------
