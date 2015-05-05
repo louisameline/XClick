@@ -1,9 +1,7 @@
-/*
-	A jQuery plugin to predict and prevent "x-clicks" events.
-	Version 1.2.2 - Released on 2014-01-10
-	More info and discussion at : https://github.com/louisameline/XClick
-	Released under MIT license
-*/
+/*! XClick v1.2.3 https://github.com/louisameline/XClick */
+/* A jQuery plugin to predict and prevent "x-clicks" events.
+ * Released on 2015-05-05 under MIT license
+ */
 ;(function($){
 	
 	// "CONSTANTS"
@@ -27,7 +25,8 @@
 	// look for MSIE or Trident + rv:1* (IE11+)
 	var n = navigator.userAgent;
 	if(		n.indexOf('MSIE') !== -1
-		|| (n.indexOf('Trident') !== -1 && n.indexOf(' rv:1') !== -1)
+		||	(n.indexOf('Trident') !== -1 && n.indexOf(' rv:1') !== -1)
+		||	n.indexOf('Chrome') !== -1
 	) xclickSupport = true;
 	
 	

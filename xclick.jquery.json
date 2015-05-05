@@ -1,32 +1,41 @@
 {
-  "name": "xclick",
-  "title": "XClick",
-  "description": "Predict and prevent x-clicks. X-clicks are unexpected and tricky click events that are triggered in Internet Explorer only, when the mousedown and mouseup events are triggered on two different elements.",
-  "keywords": [
-    "xclick", "x-click", "click", "mouseup", "mousedown", "event", "propagation", "ie", "internet", "explorer"
-  ],
-  "version": "1.2.2",
-  "author": {
-    "name": "Louis AMELINE"
-    "email": "evangun2001@yahoo.fr"
-  },
-  "maintainers": [
-    {
-      "name": "Louis AMELINE",
-      "email": "evangun2001@yahoo.fr"
-    }
-  ],
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://opensource.org/licenses/MIT"
-    }
-  ],
-  "homepage": "https://github.com/louisameline/XClick",
-  "docs": "https://github.com/louisameline/XClick",
-  "demo": "http://louisameline.github.io/XClick",
-  "download": "https://github.com/louisameline/XClick/archive/master.zip",
-  "dependencies": {
-    "jquery": ">=1.8"
-  }
+	"name": "xclick",
+	"title": "XClick",
+	"description": "Predict and prevent x-clicks. X-clicks are unexpected and tricky click events that are triggered in Internet Explorer only, when the mousedown and mouseup events are triggered on two different elements.",
+	"keywords": [
+		"xclick",
+		"x-click",
+		"click",
+		"mouseup",
+		"mousedown",
+		"event",
+		"propagation",
+		"ie",
+		"internet explorer",
+		"chrome"
+	],
+	"version": "1.2.3",
+	"author": {
+		"name": "Louis AMELINE",
+		"email": "evangun2001@yahoo.fr"
+	},
+	"maintainers": [
+		{
+		  "name": "Louis AMELINE",
+		  "email": "evangun2001@yahoo.fr"
+		}
+	],
+	"licenses": [
+		{
+		  "type": "MIT",
+		  "url": "http://opensource.org/licenses/MIT"
+		}
+	],
+	"homepage": "https://github.com/louisameline/XClick",
+	"docs": "https://github.com/louisameline/XClick",
+	"demo": "http://louisameline.github.io/XClick",
+	"download": "https://github.com/louisameline/XClick/archive/master.zip",
+	"dependencies": {
+		"jquery": ">=1.8"
+	}
 }
