@@ -1,31 +1,39 @@
 {
-	"name": "XClick",
-	"version": "1.2.3",
-	"description": "Predict and prevent x-clicks. X-clicks are unexpected and tricky click events that are triggered in Internet Explorer only, when the mousedown and mouseup events are triggered on two different elements.",
-	"author": {
-		"name": "Louis AMELINE",
-		"email": "evangun2001@yahoo.fr",
-		"url": "https://github.com/louisameline"
-	},
-	"devDependencies": {
-		"grunt-contrib-uglify": "0.8.0",
-		"grunt": "~0.4.5"
-	},
-	"keywords": [
-		"xclick",
-		"x-click",
-		"click",
-		"mouseup",
-		"mousedown",
-		"event",
-		"propagation",
-		"ie",
-		"internet explorer",
-		"chrome"
-	],
-	"repository": "https://github.com/louisameline/XClick",
-	"bugs": {
-		"url" : "https://github.com/louisameline/XClick/issues"
-	},
-	"license": "MIT"
+  "name": "XClick",
+  "version": "1.2.3",
+  "description": "Predict and prevent x-clicks. X-clicks are unexpected and tricky click events that are triggered in Internet Explorer only, when the mousedown and mouseup events are triggered on two different elements.",
+  "author": "Louis AMELINE <evangun2001@yahoo.fr> (https://github.com/louisameline)",
+  "devDependencies": {
+    "grunt-contrib-uglify": "0.8.0",
+    "grunt": "~0.4.5"
+  },
+  "keywords": [
+    "xclick",
+    "x-click",
+    "click",
+    "mouseup",
+    "mousedown",
+    "event",
+    "propagation",
+    "ie",
+    "internet explorer",
+    "chrome"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/louisameline/XClick"
+  },
+  "bugs": {
+    "url": "https://github.com/louisameline/XClick/issues"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/louisameline/XClick",
+  "main": "xclick.js",
+  "dependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-uglify": "^0.8.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
 }
