@@ -1,5 +1,5 @@
 {
-  "name": "XClick",
+  "name": "xclick",
   "version": "1.2.3",
   "description": "Predict and prevent x-clicks. X-clicks are unexpected and tricky click events that are triggered in Internet Explorer only, when the mousedown and mouseup events are triggered on two different elements.",
   "author": "Louis AMELINE <evangun2001@yahoo.fr> (https://github.com/louisameline)",
