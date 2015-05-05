@@ -1,7 +1,7 @@
 {
 	"name": "xclick",
 	"title": "XClick",
-	"description": "Predict and prevent x-clicks. X-clicks are unexpected and tricky click events that are triggered in Internet Explorer only, when the mousedown and mouseup events are triggered on two different elements.",
+	"description": "Predict and prevent x-clicks. X-clicks are unexpected and tricky click events that are triggered in Internet Explorer and Chrome, when the mousedown and mouseup events are triggered on two different elements.",
 	"keywords": [
 		"xclick",
 		"x-click",
